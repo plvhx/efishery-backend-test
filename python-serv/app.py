@@ -10,26 +10,31 @@ import core.validator.type as data_type
 
 app = Flask(__name__)
 
-@app.route('/register', methods=['POST'])
+
+@app.route("/register", methods=["POST"])
 def register():
-	content   = request.json
-	validator = Validator().set_rules([
-		Rule('name', data_type.STRING),
-		Rule('phone', data_type.STRING),
-		Rule('role', data_type.STRING)
-	])
+    content = request.json
+    validator = Validator().set_rules(
+        [
+            Rule("name", data_type.STRING),
+            Rule("phone", data_type.STRING),
+            Rule("role", data_type.STRING),
+        ]
+    )
 
-	try:
-		validator.validate(content)
-	except BaseException as e:
-		return http.handle_request_exception(e, http.HTTP_UNPROCESSABLE_ENTITY)
+    try:
+        validator.validate(content)
+    except BaseException as e:
+        return http.handle_request_exception(e, http.HTTP_UNPROCESSABLE_ENTITY)
 
-	password = PasswordFactory.generate()
+    password = PasswordFactory.generate()
+
 
 @app.route("/login")
 def login():
-	return "This is /login"
+    return "This is /login"
+
 
 @app.route("/token/parse")
 def parse_token():
-	return open(util.get_auth_cache_file()).read(1024)
+    return open(util.get_auth_cache_file()).read(1024)

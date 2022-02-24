@@ -1,5 +1,6 @@
 class KeyNotFoundError(Exception):
-	pass
+    pass
+
 
 class InvalidHashAlgorithmError(Exception):
-	pass
+    pass
