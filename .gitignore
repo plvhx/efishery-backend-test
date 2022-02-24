@@ -1,0 +1,6 @@
+python-serv/__pycache__
+python-serv/core/__pycache__
+python-serv/core/exception/__pycache__
+python-serv/core/factory/__pycache__
+python-serv/core/validator/__pycache__
+python-serv/venv
