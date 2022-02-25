@@ -11,3 +11,7 @@ def get_auth_cache_file():
 
 def get_data_cache_file():
     return get_cache_dir() + "/data.json"
+
+def get_jwt_validation_password():
+    handler = open(os.getcwd() + '/../.jwt_pass', 'rb')
+    return handler.read(1024)

@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 
 """
 10x status code.
@@ -155,4 +155,10 @@ def get_response_reason(code=HTTP_OK):
 
 
 def handle_request_exception(exception, code=HTTP_BAD_REQUEST):
-    return jsonify({"message": string(exception), code: code}, code)
+    return jsonify({'message': str(exception), 'code': code}), code
+
+
+def is_json():
+    if request.content_type != "application/json":
+        return False
+    return True

@@ -18,7 +18,7 @@ _hash_to_impl_map = {
 
 def calculate_hash(str, algorithm=SHA1):
     try:
-        hobj = _hash_to_impl_map(algorithm)
+        hobj = _hash_to_impl_map[algorithm]
     except KeyError as e:
         raise InvalidHashAlgorithmError("Invalid hashing algorithm")
 
