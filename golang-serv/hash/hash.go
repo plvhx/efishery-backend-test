@@ -1,9 +1,9 @@
 package hash
 
 import (
+	"crypto/sha1"
 	"fmt"
 	"io"
-	"crypto/sha1"
 )
 
 func Calculate(data string) string {

@@ -2,10 +2,10 @@ package jwt
 
 import (
 	"fmt"
-	"os"
-	"io/ioutil"
-	response "service/response/auth"
 	"github.com/golang-jwt/jwt"
+	"io/ioutil"
+	"os"
+	response "service/response/auth"
 )
 
 var hmacSecret []byte
@@ -61,7 +61,7 @@ func Generate(auth *response.Auth) (string, error) {
 }
 
 func Parse(token string) (*response.Auth, error) {
-	claims, err := jwt.Parse(token, func (t *jwt.Token) (interface{}, error) {
+	claims, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
 		}

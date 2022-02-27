@@ -1,9 +1,9 @@
 package password
 
 import (
+	"math/rand"
 	"strings"
 	"time"
-	"math/rand"
 )
 
 var (
@@ -25,10 +25,10 @@ func Generate(length int) string {
 		password.WriteString(string(allCharset[index]))
 	}
 
-	prune  := []rune(password.String())
+	prune := []rune(password.String())
 	lprune := len(prune)
 
-	rand.Shuffle(lprune, func (i, j int) {
+	rand.Shuffle(lprune, func(i, j int) {
 		prune[i], prune[j] = prune[j], prune[i]
 	})
 

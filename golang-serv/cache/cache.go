@@ -1,11 +1,11 @@
 package cache
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
-	"os"
-	"encoding/json"
 	"io/ioutil"
+	"os"
 )
 
 type CacheData struct {

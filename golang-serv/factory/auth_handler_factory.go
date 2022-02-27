@@ -2,15 +2,15 @@ package factory
 
 import (
 	"fmt"
-	"time"
-	"service/jwt"
-	"service/password"
 	"service/cache"
 	"service/hash"
+	"service/jwt"
+	"service/password"
+	"time"
 
 	coreHttp "net/http"
 	servHttp "service/http"
-	request  "service/request/auth"
+	request "service/request/auth"
 	response "service/response/auth"
 
 	"github.com/go-playground/validator/v10"
@@ -20,10 +20,10 @@ var (
 	Validator = validator.New()
 )
 
-type AuthFactory struct {}
+type AuthFactory struct{}
 
-func (a *AuthFactory) Register() (func (coreHttp.ResponseWriter, *coreHttp.Request)) {
-	return func (w coreHttp.ResponseWriter, r *coreHttp.Request) {
+func (a *AuthFactory) Register() func(coreHttp.ResponseWriter, *coreHttp.Request) {
+	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,
@@ -70,8 +70,8 @@ func (a *AuthFactory) Register() (func (coreHttp.ResponseWriter, *coreHttp.Reque
 	}
 }
 
-func (a *AuthFactory) Token() (func (coreHttp.ResponseWriter, *coreHttp.Request)) {
-	return func (w coreHttp.ResponseWriter, r *coreHttp.Request) {
+func (a *AuthFactory) Token() func(coreHttp.ResponseWriter, *coreHttp.Request) {
+	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,
@@ -104,8 +104,8 @@ func (a *AuthFactory) Token() (func (coreHttp.ResponseWriter, *coreHttp.Request)
 			return
 		}
 
-		data  := c.All()
-		auth  := response.NewAuth()
+		data := c.All()
+		auth := response.NewAuth()
 
 		var tval map[string]interface{}
 
@@ -114,7 +114,7 @@ func (a *AuthFactory) Token() (func (coreHttp.ResponseWriter, *coreHttp.Request)
 
 			if concrete["phone"] == req.GetPhone() && concrete["password"] == req.GetPassword() {
 				tval = concrete
-				break	
+				break
 			}
 		}
 
@@ -170,8 +170,8 @@ func (a *AuthFactory) Token() (func (coreHttp.ResponseWriter, *coreHttp.Request)
 	}
 }
 
-func (a *AuthFactory) Parse() (func (coreHttp.ResponseWriter, *coreHttp.Request)) {
-	return func (w coreHttp.ResponseWriter, r *coreHttp.Request) {
+func (a *AuthFactory) Parse() func(coreHttp.ResponseWriter, *coreHttp.Request) {
+	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,
