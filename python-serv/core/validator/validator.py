@@ -3,6 +3,7 @@ from core.exception import KeyNotFoundError
 import re
 import core.validator.type as data_type
 
+
 class Validator(object):
     def __init__(self):
         self.rules = []
@@ -34,25 +35,22 @@ class Validator(object):
                 )
 
             if not self._type_check(self.rules[i], obj[self.rules[i].get_name()]):
-            	return self._parse_type_name(obj[self.rules[i].get_name()])
+                return self._parse_type_name(obj[self.rules[i].get_name()])
 
         return True
 
     def _type_check(self, rule, val):
-    	if rule.get_type() == data_type.INTEGER:
-    		return isinstance(val, int)
-    	elif rule.get_type() == data_type.STRING:
-    		return isinstance(val, str)
-    	elif rule.get_type() == data_type.FLOAT:
-    		return isinstance(val, float)
-    	elif rule.get_type() == data_type.BOOLEAN:
-    		return isinstance(val, bool)
+        if rule.get_type() == data_type.INTEGER:
+            return isinstance(val, int)
+        elif rule.get_type() == data_type.STRING:
+            return isinstance(val, str)
+        elif rule.get_type() == data_type.FLOAT:
+            return isinstance(val, float)
+        elif rule.get_type() == data_type.BOOLEAN:
+            return isinstance(val, bool)
 
     def _parse_type_name(self, val):
-    	name    = str(type(val))
-    	matches = re.findall(
-    		'^(?:<class \')(int|str|float|bool)(?:\')$',
-    		name
-    	)
+        name = str(type(val))
+        matches = re.findall("^(?:<class ')(int|str|float|bool)(?:')$", name)
 
-    	return matches
+        return matches

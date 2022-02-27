@@ -1,4 +1,7 @@
 from flask import jsonify, request
+from core.exception import InvalidBearerTokenError, JwtDecodeError
+
+import jwt
 
 """
 10x status code.
@@ -155,10 +158,34 @@ def get_response_reason(code=HTTP_OK):
 
 
 def handle_request_exception(exception, code=HTTP_BAD_REQUEST):
-    return jsonify({'message': str(exception), 'code': code}), code
+    return jsonify({"message": str(exception), "code": code}), code
 
 
 def is_json():
     if request.content_type != "application/json":
         return False
     return True
+
+
+def has_authorization():
+    try:
+        request.headers["Authorization"]
+    except KeyError as e:
+        return False
+
+    return True
+
+
+def parse_bearer_token(password):
+    bearer = request.headers["Authorization"]
+    splitted = bearer.split(" ")
+
+    if splitted[0] != "Bearer":
+        raise InvalidBearerTokenError("Bearer token must be prefixed by 'Bearer'.")
+
+    try:
+        claims = jwt.decode(splitted[1], password, {"verify_signature": True})
+    except jwt.exceptions.DecodeError as e:
+        raise JwtDecodeError(str(e))
+
+    return claims
