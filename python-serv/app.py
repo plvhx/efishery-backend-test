@@ -4,6 +4,7 @@ from core.validator.rule import Rule
 from core.validator.validator import Validator
 
 import jwt
+import os
 import time
 import core.cache as cache
 import core.hash as hashgen
@@ -171,3 +172,7 @@ def get_resource():
         return http.handle_request_exception(e, http.HTTP_UNAUTHORIZED)
 
     return jsonify(resource.fetch_resources()), http.HTTP_OK
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
