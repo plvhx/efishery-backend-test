@@ -24,6 +24,16 @@ type AuthFactory struct{}
 
 func (a *AuthFactory) Register() func(coreHttp.ResponseWriter, *coreHttp.Request) {
 	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
+		if r.Method != "POST" {
+			servHttp.HandleError(
+				w,
+				"HTTP method must be 'POST'.",
+				coreHttp.StatusMethodNotAllowed,
+			)
+
+			return
+		}
+
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,
@@ -72,6 +82,16 @@ func (a *AuthFactory) Register() func(coreHttp.ResponseWriter, *coreHttp.Request
 
 func (a *AuthFactory) Token() func(coreHttp.ResponseWriter, *coreHttp.Request) {
 	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
+		if r.Method != "POST" {
+			servHttp.HandleError(
+				w,
+				"HTTP method must be 'POST'.",
+				coreHttp.StatusMethodNotAllowed,
+			)
+
+			return
+		}
+
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,
@@ -109,7 +129,7 @@ func (a *AuthFactory) Token() func(coreHttp.ResponseWriter, *coreHttp.Request) {
 
 		var tval map[string]interface{}
 
-		for _, abstract := range data {
+		for _, abstract := range data.Data {
 			concrete := abstract.(map[string]interface{})
 
 			if concrete["phone"] == req.GetPhone() && concrete["password"] == req.GetPassword() {
@@ -172,6 +192,16 @@ func (a *AuthFactory) Token() func(coreHttp.ResponseWriter, *coreHttp.Request) {
 
 func (a *AuthFactory) Parse() func(coreHttp.ResponseWriter, *coreHttp.Request) {
 	return func(w coreHttp.ResponseWriter, r *coreHttp.Request) {
+		if r.Method != "POST" {
+			servHttp.HandleError(
+				w,
+				"HTTP method must be 'POST'.",
+				coreHttp.StatusMethodNotAllowed,
+			)
+
+			return
+		}
+
 		if !servHttp.IsJson(r) {
 			servHttp.HandleError(
 				w,

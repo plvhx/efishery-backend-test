@@ -2,8 +2,10 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type FaultResponse struct {
@@ -52,4 +54,23 @@ func GetJson(r *http.Request, v interface{}) error {
 
 func HandleError(w http.ResponseWriter, message string, code int) {
 	AsJson(w, &FaultResponse{Message: message, Code: code}, code)
+}
+
+func HasAuthorization(r *http.Request) bool {
+	if r.Header.Get("Authorization") == "" {
+		return false
+	}
+
+	return true
+}
+
+func ParseBearerToken(r *http.Request) (string, error) {
+	bearer := r.Header.Get("Authorization")
+	splitted := strings.Split(bearer, " ")
+
+	if splitted[0] != "Bearer" {
+		return "", errors.New("Authorization header format is not 'Bearer <token>'.")
+	}
+
+	return splitted[1], nil
 }

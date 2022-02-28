@@ -184,7 +184,7 @@ func (c *Cache) Get(key string) interface{} {
 	return nil
 }
 
-func (c *Cache) All() map[string]interface{} {
+func (c *Cache) All() *CacheData {
 	file, err := os.Open(c.GetFile())
 
 	if err != nil {
@@ -207,7 +207,7 @@ func (c *Cache) All() map[string]interface{} {
 		return nil
 	}
 
-	return cacheData.Data
+	return cacheData
 }
 
 func AuthCacheFactory() (*Cache, error) {
